@@ -1,0 +1,21 @@
+{
+    "name": "Github Organization Watcher",
+    "author": "https://github.com/mattmontgomery/github-organization-watcher.git",
+    "dependencies": {
+        "jquery": "~2",
+        "list.js": "",
+        "underscore": "",
+        "backbone": "",
+        "moment": "~2",
+        "requirejs": "~2",
+        "modernizr": "",
+        "bootstrap": "",
+        "impress.js": "",
+        "normalize.css": "",
+        "q": "",
+        "bluebird": "",
+        "angularjs": "",
+        "handlebars": "",
+        "requirejs-handlebars": ""
+    }
+}

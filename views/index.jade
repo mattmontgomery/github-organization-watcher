@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  script#org_tpl(type='text/x-handlebars/template')
+    div.organization
+      input.org
+      span.close &times;
+  form#organizations
+    .orglist
+        each org in orglist
+          div.organization
+            input.org(value=org)
+            span.close &times;
+    button.add(type='button') Add an organization
+    button.submit(type='submit') Update
+  #repos
+    .repolist
+      each data, org in repos
+        div #{org}
