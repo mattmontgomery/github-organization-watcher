@@ -57,7 +57,6 @@ router.get('/', function(req, res) {
       Promise.all(promises).then(function(){
           var orglist = _(orgs).sort().value();
           repos = _.sortBy(repos, function(k,idx) { return idx; });
-              console.log(_.keys(repos));
           res.render('index', { title: 'Watcher', orglist: orglist, repos: repos });
       })
   });
