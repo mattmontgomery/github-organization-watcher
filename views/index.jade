@@ -16,6 +16,15 @@ block content
     button.add(type='button') Add an organization
     button.submit(type='submit') Update
   #repos
+    h1 Repositories
     .repolist
       each data, org in repos
-        div #{org}
+        .org
+            h3 #{org}
+            ul.repos
+                each r in data
+                  li.repo
+                    .name
+                      a(href=r.html_url) #{r.name}
+                    .description #{r.description}
+                    .date #{r.updated_at}

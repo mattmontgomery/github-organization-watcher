@@ -10,7 +10,7 @@ var Promise = require('bluebird');
 
 var key = 'gow.orgs',
     urlBase = 'https://api.github.com/orgs/',
-    urlSuffix = '/repos'
+    urlSuffix = '/repos?per_page=500'
     reposKey = 'gow.orgs.repos',
     headers = {
         'User-Agent': 'github-organization-watcher'
@@ -20,25 +20,35 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 router.get('/', function(req, res) {
+  client.exists(reposKey, function(err, ext) {
+    if(!ext && !err) {
+        client.expire(reposKey,600);
+    }
+  });
   organizations = client.smembers(key, function(err, orgs) {
+      if(orgs === 0) {
+          return false;
+      }
       var repos = {},
         promises = [];
       _.each(orgs, function(org) {
           var px = new Promise(function(resolve,reject) {
               client.hget(reposKey,org, function(err, data) {
-                  repos[org] = data;
                   if(!data) {
                     var url = urlBase + org + urlSuffix;
                     request.get({url: url, headers: headers}, function(error, resp, data) {
                       if(error) {
                         reject();
                       }
-                      resolve(data);
-                      repos[org] = data;
+                      repos[org] = JSON.parse(data);
+                      repos[org] = _(repos[org]).sortBy(['updated_at','created_at']).reverse().value();
                       client.hset(reposKey,org,data);
+                      resolve(repos[org]);
                     });
                   } else {
-                    resolve(data);
+                    repos[org] = JSON.parse(data);
+                    repos[org] = _(repos[org]).sortBy(['updated_at','created_at']).reverse().value();
+                    resolve(repos[org]);
                   }
               });
           });

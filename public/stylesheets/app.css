@@ -1,6 +1,27 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
+  text-rendering: optimizeLegibility; }
 
 a {
-  color: #00B7FF; }
+  color: #00B7FF;
+  text-decoration: none;
+  font-weight: bold; }
+
+.repolist {
+  display: flex; }
+  .repolist .org {
+    margin: 8px;
+    width: 300px; }
+    .repolist .org li {
+      display: block;
+      padding: 8px;
+      border: 1px solid #ddd;
+      margin: 8px 0; }
+      .repolist .org li:hover {
+        border: 1px solid #ddf;
+        background: #fcfcff; }
+  .repolist .repos {
+    margin: 0;
+    padding: 0; }
