@@ -43,19 +43,22 @@ router.get('/', function(req, res) {
                       repos[org] = JSON.parse(data);
                       repos[org] = _(repos[org]).sortBy(['updated_at','created_at']).reverse().value();
                       client.hset(reposKey,org,data);
-                      resolve(repos[org]);
+                      resolve(repos[org],org);
                     });
                   } else {
                     repos[org] = JSON.parse(data);
                     repos[org] = _(repos[org]).sortBy(['updated_at','created_at']).reverse().value();
-                    resolve(repos[org]);
+                    resolve(repos[org],org);
                   }
               });
           });
           promises.push(px);
       });
       Promise.all(promises).then(function(){
-          res.render('index', { title: 'Watcher', orglist: orgs, repos: repos });
+          var orglist = _(orgs).sort().value();
+          repos = _.sortBy(repos, function(k,idx) { return idx; });
+              console.log(_.keys(repos));
+          res.render('index', { title: 'Watcher', orglist: orglist, repos: repos });
       })
   });
 });
